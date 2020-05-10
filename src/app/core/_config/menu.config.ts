@@ -14,18 +14,19 @@ export class MenuConfig {
 					title: 'Product',
 					root: true,
 					alignment: 'left',
+					icon: 'fa fa-boxes',
 					toggle: 'click',
 					submenu: [
 						{
 							title: 'Listing',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'flaticon-list-3',
 							page: '/product/listing',
 						},
 						{
 							title: 'Add New',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'la la-plus',
 							page: '/product/addnew',
 						},
 					]
@@ -34,24 +35,26 @@ export class MenuConfig {
 					title: 'inventory',
 					root: true,
 					alignment: 'left',
+					icon:'flaticon2-open-box',
 					page: '/inventory',
 				},
 				{
 					title: 'order',
 					root: true,
 					alignment: 'left',
+					icon: 'la la-shopping-cart',
 					toggle: 'click',
 					submenu: [
 						{
-							title: 'Listing',
+							title: 'Orders',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'la la-cart-arrow-down',
 							page: '/order/orders',
 						},
 						{
-							title: 'Add New',
+							title: 'Returns',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'la la-sign-in',
 							page: '/order/returns',
 						},
 					]
@@ -60,18 +63,19 @@ export class MenuConfig {
 					title: 'paymant',
 					root: true,
 					alignment: 'left',
+					icon:'la la-money',
 					toggle: 'click',
 					submenu: [
 						{
-							title: 'Listing',
+							title: 'Overview',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'la la-eye',
 							page: '/paymant/overview',
 						},
 						{
-							title: 'Add New',
+							title: 'Previous Paymants',
 							bullet: 'dot',
-							icon: 'flaticon-business',
+							icon: 'la la-list-ol',
 							page: '/paymant/previous',
 						},
 					]
@@ -80,6 +84,7 @@ export class MenuConfig {
 					title: 'growth',
 					root: true,
 					alignment: 'left',
+					icon: 'flaticon2-graphic',
 					page: '/growth',
 				},
 			]
