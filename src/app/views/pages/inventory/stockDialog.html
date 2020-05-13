@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{data.dialogtext}} Stock</h1>
+<div mat-dialog-content>
+  <h6>Current Stock ( {{ data.obj.Qty }} )</h6>
+  <mat-form-field>
+    <mat-label>Add Stock</mat-label>
+    <input matInput [(ngModel)]="data.addStock">
+    <span matPrefix>{{ data.obj.Qty }} + &nbsp;</span>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
+

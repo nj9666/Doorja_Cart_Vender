@@ -1,1 +1,159 @@
-<p>orders works!</p>
+<div class="row mb-4">
+	<div class="col-md-12">
+		<div class="row">
+            <div class="col-md kt-mb-10-tablet-and-mobile">
+                <mat-card class="example-card bg-info text-white" (click)="applyFilter_Comp()">
+                    <mat-card-header>
+                        <mat-card-title>0</mat-card-title>
+                        <mat-card-subtitle class="mb-0 text-white">New Orders</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+			<div class="col-md kt-mb-10-tablet-and-mobile">
+				<mat-card class="example-card bg-danger text-white" (click)="applyFilter_panLab()">
+					<mat-card-header>
+						<mat-card-title>0</mat-card-title>
+						<mat-card-subtitle class="mb-0 text-white">Pending Labels</mat-card-subtitle>
+					</mat-card-header>
+				</mat-card>
+			</div>
+			<div class="col-md kt-mb-10-tablet-and-mobile">
+				<mat-card class="example-card bg-warning" (click)="applyFilter_RTD()">
+					<mat-card-header>
+						<mat-card-title>0</mat-card-title>
+						<mat-card-subtitle class="mb-0">Pending RTD</mat-card-subtitle>
+					</mat-card-header>
+				</mat-card>
+			</div>
+			<div class="col-md kt-mb-10-tablet-and-mobile">
+				<mat-card class="example-card kt-bg-fill-brand text-white" (click)="applyFilter_Dispa()">
+					<mat-card-header>
+						<mat-card-title>0</mat-card-title>
+						<mat-card-subtitle class="mb-0 text-white">Dispatched</mat-card-subtitle>
+					</mat-card-header>
+				</mat-card>
+			</div>
+			<div class="col-md kt-mb-10-tablet-and-mobile">
+				<mat-card class="example-card bg-success text-white" (click)="applyFilter_Comp()">
+					<mat-card-header>
+						<mat-card-title>0</mat-card-title>
+						<mat-card-subtitle class="mb-0 text-white">Completed In last 30 days</mat-card-subtitle>
+					</mat-card-header>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row mb-4">
+    
+	<div class="col-md-7">
+		<mat-card class="example-card pb-3">
+			<mat-card-content>
+				<mat-form-field class="example-full-width ">
+					<mat-label>Search in table</mat-label>
+					<input matInput (keyup)="applyFilter_order($event)" placeholder="Ex. ium">
+					<mat-icon matSuffix>search</mat-icon>
+				</mat-form-field>
+			</mat-card-content>
+		</mat-card>
+    </div>
+    <div class="col-md kt-mb-10-tablet-and-mobile">
+        <button mat-raised-button  matTooltip="Clear Fillter" (click)="getselected()">
+            <mat-icon>clear</mat-icon> Clear Fillter
+        </button>
+
+    </div>
+</div>
+<kt-portlet>
+	<kt-portlet-body>
+		<div class="example-container ">
+			<div class="example-loading-shade" *ngIf="isLoadingResults">
+				<mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+			</div>
+			<div class="example-table-container">
+				<mat-table #mattbl_order [dataSource]="dataSource_order" matSort>
+
+                    <!-- Checkbox Column -->
+					<ng-container matColumnDef="select">
+						<mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
+							<mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+							</mat-checkbox>
+						</mat-header-cell>
+						<mat-cell *matCellDef="let row" class="mat-column-checkbox">
+							<mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+							</mat-checkbox>
+						</mat-cell>
+					</ng-container>
+
+
+					<!-- Column -->
+					<ng-container matColumnDef="OrderId">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column"> OrderId </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column"> {{element.OrderId}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Sku">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="ProName">
+						<mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.ProName}} </mat-cell>
+					</ng-container>
+					<!-- Column -->
+					<ng-container matColumnDef="User">
+						<mat-header-cell *matHeaderCellDef mat-sort-header> User Name </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.User}} </mat-cell>
+					</ng-container>
+
+
+
+
+					<!-- Column -->
+					<ng-container matColumnDef="Qty">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Qty </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Qty}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Price">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Price </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Price}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Status">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> Status </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-color">
+							<span *ngIf="element.Status == 1" class="kt-badge kt-badge--inline kt-badge--dark kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending First Action </span>
+							<span *ngIf="element.Status == 2" class="kt-badge kt-badge--inline kt-badge--danger kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending Labels </span>
+							<span *ngIf="element.Status == 3" class="kt-badge kt-badge--inline kt-badge--warning kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending RTD </span>
+							<span *ngIf="element.Status == 4" class="kt-badge kt-badge--inline kt-badge--brand kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Dispatched </span>
+							<span *ngIf="element.Status == 5" class="kt-badge kt-badge--inline kt-badge--success kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Completed </span>
+						</mat-cell>
+					</ng-container>
+
+					<!-- Action Column -->
+					<ng-container matColumnDef="actions">
+						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+
+							<button mat-icon-button color="primary" matTooltip="Edit customer" (click)="editelement(element)">
+								<mat-icon>create</mat-icon>
+							</button>
+
+						</mat-cell>
+					</ng-container>
+
+					<mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+				</mat-table>
+
+				<mat-paginator #mat_pag_order [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+			</div>
+		</div>
+	</kt-portlet-body>
+</kt-portlet>

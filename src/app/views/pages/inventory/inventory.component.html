@@ -1,1 +1,107 @@
-<p>inventory works!</p>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+             <mat-card class="example-card" (click)="applyFilter_allstock()">
+                 <mat-card-header>
+                   <mat-card-title>All Inventory</mat-card-title>
+                   <mat-card-subtitle class="mb-0">{{allstock}} SKUs</mat-card-subtitle>
+                 </mat-card-header>
+               </mat-card>
+            </div>
+            <div class="col-md-4">
+             <mat-card class="example-card" (click)="applyFilter_lowstock()">
+                 <mat-card-header>
+                   <mat-card-title>Low Stock</mat-card-title>
+                   <mat-card-subtitle class="mb-0">{{lowstock_a.length}} SKUs</mat-card-subtitle>
+                 </mat-card-header>
+               </mat-card>
+            </div>
+            <div class="col-md-4">
+             <mat-card class="example-card" (click)="applyFilter_outof()">
+                 <mat-card-header>
+                   <mat-card-title>Out of Stock</mat-card-title>
+                   <mat-card-subtitle class="mb-0">{{outofstock_a.length}} SKUs</mat-card-subtitle>
+                 </mat-card-header>
+               </mat-card>
+            </div>
+           
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+        <mat-card class="example-card pb-3" >
+            <mat-card-content>
+                <mat-form-field class="example-full-width ">
+					<mat-label>Search in table</mat-label>
+                    <input matInput (keyup)="applyFilter_inventory($event)" placeholder="Ex. ium">
+                    <mat-icon matSuffix>search</mat-icon>
+				</mat-form-field>
+              </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<kt-portlet>
+	<kt-portlet-body>
+		<div class="example-container ">
+			<div class="example-loading-shade" *ngIf="isLoadingResults">
+				<mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+			</div>
+			<div class="example-table-container">
+				<mat-table #mattbl_inventory [dataSource]="dataSource_inventory" matSort>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Sku">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Name">
+						<mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="ColorId">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> ColorId </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-color"    >
+                            <span class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.ColorId}}" [ngStyle]="{'background-color':element.ColorId}"> </span>
+                             {{element.ColorId}} 
+                        </mat-cell>
+					</ng-container>
+
+					
+					<!-- Column -->
+					<ng-container matColumnDef="SizeId">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> SizeId </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.SizeId}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="Qty">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Current stock </mat-header-cell>
+						<mat-cell *matCellDef="let element"class="mat-column-id" > {{element.Qty}} </mat-cell>
+                    </ng-container>
+                    
+                    <!-- Action Column -->
+					<ng-container matColumnDef="actions">
+						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+
+								<button mat-icon-button color="primary" matTooltip="Edit customer" (click)="editelement(element)">
+									<mat-icon>create</mat-icon>
+								</button>
+
+						</mat-cell>
+					</ng-container>
+										
+					<mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+				</mat-table>
+
+				<mat-paginator #mat_pag_inventory [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+			</div>
+		</div>
+	</kt-portlet-body>
+</kt-portlet>

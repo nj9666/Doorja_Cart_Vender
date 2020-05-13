@@ -9,12 +9,12 @@ import { PartialsModule } from '../../partials/partials.module';
 import { MaterialModule } from '../../../../material-module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { InventoryComponent } from './inventory.component';
+import { InventoryComponent,stockDialog } from './inventory.component';
 
 
 
 @NgModule({
-  declarations: [InventoryComponent],
+  declarations: [InventoryComponent,stockDialog],
   imports: [ 
     MaterialModule,
     FormsModule, 
@@ -29,6 +29,7 @@ import { InventoryComponent } from './inventory.component';
       },
       
     ]),
-  ]
+  ],
+  entryComponents: [InventoryComponent,stockDialog]
 })
 export class InventoryModule { }
