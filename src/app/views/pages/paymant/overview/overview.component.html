@@ -1,1 +1,76 @@
-<p>overview works!</p>
+<div class="row">
+	<div class="col-md-6">
+		<kt-portlet class="kt-portlet--height-fluid">
+			<kt-portlet-header [class]="'kt-portlet__head--lg'">
+				<ng-container ktPortletTitle>
+					<h3 class="kt-portlet__head-title">
+						<span> Next Payment </span>
+					</h3>
+				</ng-container>
+
+				<ng-container ktPortletTools>
+					<span class="kt-badge kt-badge--unified-danger kt-badge--lg kt-badge--rounded kt-badge--bold kt-badge--inline px-5">{{ nextPay_date | date }}</span>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<p>
+					Estimated value of next payment. This may change due to returns that come in before the next payout. This might be inclusive of amount shown as Last Payment on a payout day. It could take up to 24 hrs to get updated.
+				</p>
+				<table class="table">
+					<tr>
+						<td>Postpaid</td>
+						<td class="text-right">$ 0.00</td>
+					</tr>
+					<tr>
+						<td>Prepaid</td>
+						<td class="text-right">{{ ntotal | currency:'INR' }}</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td><strong> Total </strong></td>
+							<td class="text-right"><strong>{{ ntotal | currency:'INR' }}</strong></td>
+						</tr>
+					</tfoot>
+				</table>
+
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+	<div class="col-md-6">
+		<kt-portlet class="kt-portlet--height-fluid">
+			<kt-portlet-header [class]="'kt-portlet__head--lg'">
+				<ng-container ktPortletTitle>
+					<h3 class="kt-portlet__head-title">
+						<span> Last Payment </span>
+					</h3>
+				</ng-container>
+
+				<ng-container ktPortletTools>
+					<span class="kt-badge kt-badge--unified-danger kt-badge--lg kt-badge--rounded kt-badge--bold kt-badge--inline px-5">{{lastPay_date | date}}</span>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<p>
+					These payments have been initiated and may take up to 48 hours to reflect in your bank account.
+				</p>
+				<table class="table">
+					<tr>
+						<td>Postpaid</td>
+						<td class="text-right">$ 0.00</td>
+					</tr>
+					<tr>
+						<td>Prepaid</td>
+						<td class="text-right">{{ ltotal | currency:'INR' }}</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td><strong> Total </strong></td>
+							<td class="text-right"><strong>{{ ltotal | currency:'INR' }}</strong></td>
+						</tr>
+					</tfoot>
+				</table>
+
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>

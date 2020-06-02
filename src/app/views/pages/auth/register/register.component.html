@@ -11,16 +11,46 @@
 		<form class="kt-login__form kt-form" [formGroup]="registerForm" autocomplete="off">
 			<div class="form-group">
 				<mat-form-field>
-					<mat-label>Fullname</mat-label>
-					<input matInput type="text" placeholder="Fullname" formControlName="fullname"/>
-					<mat-error *ngIf="isControlHasError('fullname','required')">
+					<mat-label>FullName</mat-label>
+					<input matInput type="text" placeholder="VenderFullName" formControlName="VenderFullName"/>
+					<mat-error *ngIf="isControlHasError('VenderFullName','required')">
 						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
 					</mat-error>
-					<mat-error *ngIf="isControlHasError('fullname','minlength')">
+					<mat-error *ngIf="isControlHasError('VenderFullName','minlength')">
 						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
 					</mat-error>
-					<mat-error *ngIf="isControlHasError('fullname','maxlength')">
+					<mat-error *ngIf="isControlHasError('VenderFullName','maxlength')">
 						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 100</strong>
+					</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<mat-form-field>
+					<mat-label>Business Name</mat-label>
+					<input matInput type="text" placeholder="DisplayBusinessName" formControlName="DisplayBusinessName"/>
+					<mat-error *ngIf="isControlHasError('DisplayBusinessName','required')">
+						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('DisplayBusinessName','minlength')">
+						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('DisplayBusinessName','maxlength')">
+						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 100</strong>
+					</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<mat-form-field>
+					<mat-label>Phone Number</mat-label>
+					<input matInput type="text" placeholder="phoneNumber" formControlName="phoneNumber" number-only/>
+					<mat-error *ngIf="isControlHasError('phoneNumber','required')">
+						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('username','minlength')">
+						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 10</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('username','maxlength')">
+						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 15</strong>
 					</mat-error>
 				</mat-form-field>
 			</div>
@@ -42,21 +72,7 @@
 					</mat-error>
 				</mat-form-field>
 			</div>
-			<div class="form-group">
-				<mat-form-field>
-					<mat-label>Username</mat-label>
-					<input matInput type="text" placeholder="Username" formControlName="username"/>
-					<mat-error *ngIf="isControlHasError('username','required')">
-						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
-					</mat-error>
-					<mat-error *ngIf="isControlHasError('username','minlength')">
-						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
-					</mat-error>
-					<mat-error *ngIf="isControlHasError('username','maxlength')">
-						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 100</strong>
-					</mat-error>
-				</mat-form-field>
-			</div>
+			
 			<div class="form-group">
 				<mat-form-field>
 					<mat-label>{{ 'AUTH.INPUT.PASSWORD' | translate }}</mat-label>

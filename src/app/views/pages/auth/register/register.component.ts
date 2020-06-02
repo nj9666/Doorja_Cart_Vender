@@ -13,6 +13,7 @@ import { AppState } from '../../../../core/reducers';
 import { AuthNoticeService, AuthService, Register, User } from '../../../../core/auth/';
 import { Subject } from 'rxjs';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
+import { SystemService } from '../../../../Shared/SystemService';
 
 @Component({
 	selector: 'kt-register',
@@ -44,7 +45,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		 public service: SystemService
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -75,11 +77,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	 */
 	initRegisterForm() {
 		this.registerForm = this.fb.group({
-			fullname: ['', Validators.compose([
+			VenderFullName: ['', Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
 			])
+			],
+			phoneNumber: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(10),
+				Validators.maxLength(15)
+			]),
 			],
 			email: ['', Validators.compose([
 				Validators.required,
@@ -89,7 +97,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 				Validators.maxLength(320)
 			]),
 			],
-			username: ['', Validators.compose([
+			DisplayBusinessName: ['', Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
@@ -117,17 +125,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	 * Form Submit
 	 */
 	submit() {
+
 		const controls = this.registerForm.controls;
 
-		// check form
 		if (this.registerForm.invalid) {
 			Object.keys(controls).forEach(controlName =>
 				controls[controlName].markAsTouched()
 			);
 			return;
 		}
-
-		this.loading = true;
 
 		if (!controls.agree.value) {
 			// you must agree the terms and condition
@@ -136,30 +142,71 @@ export class RegisterComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const _user: User = new User();
-		_user.clear();
-		_user.email = controls.email.value;
-		_user.username = controls.username.value;
-		_user.fullname = controls.fullname.value;
-		_user.password = controls.password.value;
-		_user.roles = [];
-		this.auth.register(_user).pipe(
-			tap(user => {
-				if (user) {
-					this.store.dispatch(new Register({authToken: user.accessToken}));
-					// pass notice message to the login page
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
-					this.router.navigateByUrl('/auth/login');
-				} else {
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-				}
-			}),
-			takeUntil(this.unsubscribe),
-			finalize(() => {
-				this.loading = false;
-				this.cdr.markForCheck();
-			})
-		).subscribe();
+
+		let obj = this.registerForm.value;
+		console.log(obj);
+// return false;
+		let postData = { VenderFullName: obj.VenderFullName,
+			DisplayBusinessName: obj.DisplayBusinessName,
+			MobileNumber: obj.phoneNumber,
+			Email: obj.email,
+			Password: obj.password }
+
+		this.service.Data.ExecuteAPI<any>("Vender/Insert", postData).then((data) =>
+		{
+			console.log(data);
+			// this.isLoading = false;
+			if (data.data)
+			{
+				this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
+				this.service.loadAccountDetail().then(() => {
+				this.router.navigateByUrl('/auth/login');
+			});
+			}
+			else
+			{
+				this.authNoticeService.setNotice(data.message, 'danger');
+			}
+			this.loading = false;
+			// this.service.App.ShowLoader = false;
+		});
+	  
+
+
+
+
+
+		// check form
+		
+
+		// this.loading = true;
+
+		
+
+		// const _user: User = new User();
+		// _user.clear();
+		// _user.email = controls.email.value;
+		// _user.username = controls.username.value;
+		// _user.fullname = controls.fullname.value;
+		// _user.password = controls.password.value;
+		// _user.roles = [];
+		// this.auth.register(_user).pipe(
+		// 	tap(user => {
+		// 		if (user) {
+		// 			this.store.dispatch(new Register({authToken: user.accessToken}));
+		// 			// pass notice message to the login page
+		// 			this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
+		// 			this.router.navigateByUrl('/auth/login');
+		// 		} else {
+		// 			this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+		// 		}
+		// 	}),
+		// 	takeUntil(this.unsubscribe),
+		// 	finalize(() => {
+		// 		this.loading = false;
+		// 		this.cdr.markForCheck();
+		// 	})
+		// ).subscribe();
 	}
 
 	/**

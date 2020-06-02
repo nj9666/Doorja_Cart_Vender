@@ -4,14 +4,14 @@ import { SocialNetworks } from './social-networks.model';
 
 export class User extends BaseModel {
     id: number;
-    username: string;
+    mobileNumber: string;
     password: string;
     email: string;
     accessToken: string;
     refreshToken: string;
     roles: number[];
     pic: string;
-    fullname: string;
+    venderFullName: string;
     occupation: string;
 	companyName: string;
 	phone: string;
@@ -20,11 +20,11 @@ export class User extends BaseModel {
 
     clear(): void {
         this.id = undefined;
-        this.username = '';
+        this.mobileNumber = '';
         this.password = '';
         this.email = '';
         this.roles = [];
-        this.fullname = '';
+        this.venderFullName = '';
         this.accessToken = 'access-token-' + Math.random();
         this.refreshToken = 'access-token-' + Math.random();
         this.pic = './assets/media/users/default.jpg';

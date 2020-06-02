@@ -9,6 +9,7 @@ import { PartialsModule } from '../partials/partials.module';
 import { CoreModule } from '../../core/core.module';
 
 import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { SharedModule } from '../../Shared/shared.module';
 
 @NgModule({
 	declarations: [],
@@ -23,6 +24,7 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule 
 		MatCheckboxModule,
 		MatInputModule,
 		MatFormFieldModule,
+		SharedModule
 	],
 	providers: []
 })

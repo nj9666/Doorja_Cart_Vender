@@ -2,9 +2,9 @@
 	<div class="col-md-12">
 		<div class="row">
             <div class="col-md kt-mb-10-tablet-and-mobile">
-                <mat-card class="example-card bg-info text-white" (click)="applyFilter_Comp()">
+                <mat-card class="example-card bg-info text-white" (click)="applyFilter_new_order()">
                     <mat-card-header>
-                        <mat-card-title>0</mat-card-title>
+                        <mat-card-title>{{new_order_a.length}}</mat-card-title>
                         <mat-card-subtitle class="mb-0 text-white">New Orders</mat-card-subtitle>
                     </mat-card-header>
                 </mat-card>
@@ -12,7 +12,7 @@
 			<div class="col-md kt-mb-10-tablet-and-mobile">
 				<mat-card class="example-card bg-danger text-white" (click)="applyFilter_panLab()">
 					<mat-card-header>
-						<mat-card-title>0</mat-card-title>
+						<mat-card-title>{{panLab_a.length}}</mat-card-title>
 						<mat-card-subtitle class="mb-0 text-white">Pending Labels</mat-card-subtitle>
 					</mat-card-header>
 				</mat-card>
@@ -20,7 +20,7 @@
 			<div class="col-md kt-mb-10-tablet-and-mobile">
 				<mat-card class="example-card bg-warning" (click)="applyFilter_RTD()">
 					<mat-card-header>
-						<mat-card-title>0</mat-card-title>
+						<mat-card-title>{{RTD_a.length}}</mat-card-title>
 						<mat-card-subtitle class="mb-0">Pending RTD</mat-card-subtitle>
 					</mat-card-header>
 				</mat-card>
@@ -28,7 +28,7 @@
 			<div class="col-md kt-mb-10-tablet-and-mobile">
 				<mat-card class="example-card kt-bg-fill-brand text-white" (click)="applyFilter_Dispa()">
 					<mat-card-header>
-						<mat-card-title>0</mat-card-title>
+						<mat-card-title>{{Dispa_a.length}}</mat-card-title>
 						<mat-card-subtitle class="mb-0 text-white">Dispatched</mat-card-subtitle>
 					</mat-card-header>
 				</mat-card>
@@ -36,7 +36,7 @@
 			<div class="col-md kt-mb-10-tablet-and-mobile">
 				<mat-card class="example-card bg-success text-white" (click)="applyFilter_Comp()">
 					<mat-card-header>
-						<mat-card-title>0</mat-card-title>
+						<mat-card-title>{{Comp_a.length}}</mat-card-title>
 						<mat-card-subtitle class="mb-0 text-white">Completed In last 30 days</mat-card-subtitle>
 					</mat-card-header>
 				</mat-card>
@@ -44,7 +44,7 @@
 		</div>
 	</div>
 </div>
-<div class="row mb-4">
+<div class="row mb-4 align-items-end">
     
 	<div class="col-md-7">
 		<mat-card class="example-card pb-3">
@@ -56,12 +56,21 @@
 				</mat-form-field>
 			</mat-card-content>
 		</mat-card>
-    </div>
-    <div class="col-md kt-mb-10-tablet-and-mobile">
-        <button mat-raised-button  matTooltip="Clear Fillter" (click)="getselected()">
-            <mat-icon>clear</mat-icon> Clear Fillter
-        </button>
-
+	</div>
+	<div class="col-md kt-mb-10-tablet-and-mobile text-right">
+		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="Upgrade_status()" *ngIf="selection.selected.length != 0" mat-raised-button color="primary" matTooltip="Upgrade Status">
+			<i class="la la-arrow-circle-up"></i>
+			<span class="kt-hidden-mobile">Upgrade Status</span>
+		</a>
+		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="clear_select()" *ngIf="selection.selected.length != 0" mat-raised-button matTooltip="Clear Fillter">
+			<span class="kt-hidden-mobile">Clear Section</span>
+		</a>
+		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="ConfirmAll()" *ngIf="ConfirmOrder" mat-raised-button color="primary" matTooltip="Confirm All">
+			<span class="kt-hidden-mobile">Confirm All</span>
+		</a>
+		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="applyFilter_All()" mat-raised-button matTooltip="Clear Fillter">
+			<span class="kt-hidden-mobile">Clear Fillter</span>
+		</a>
     </div>
 </div>
 <kt-portlet>
@@ -128,11 +137,12 @@
 					<ng-container matColumnDef="Status">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> Status </mat-header-cell>
 						<mat-cell *matCellDef="let element" class="mat-column-color">
-							<span *ngIf="element.Status == 1" class="kt-badge kt-badge--inline kt-badge--dark kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending First Action </span>
+							<span *ngIf="element.Status == 1" class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending First Action </span>
 							<span *ngIf="element.Status == 2" class="kt-badge kt-badge--inline kt-badge--danger kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending Labels </span>
 							<span *ngIf="element.Status == 3" class="kt-badge kt-badge--inline kt-badge--warning kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending RTD </span>
 							<span *ngIf="element.Status == 4" class="kt-badge kt-badge--inline kt-badge--brand kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Dispatched </span>
 							<span *ngIf="element.Status == 5" class="kt-badge kt-badge--inline kt-badge--success kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Completed </span>
+							<span *ngIf="element.Status == 6" class="kt-badge kt-badge--inline kt-badge--dark  kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Canceled </span>
 						</mat-cell>
 					</ng-container>
 
@@ -141,8 +151,14 @@
 						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
 						<mat-cell *matCellDef="let element">
 
-							<button mat-icon-button color="primary" matTooltip="Edit customer" (click)="editelement(element)">
-								<mat-icon>create</mat-icon>
+							<button *ngIf="element.Status == 1" mat-icon-button color="primary" matTooltip="Confirm" (click)="changeStatus(element,true)">
+								<mat-icon>check_circle</mat-icon>
+							</button>
+							<button *ngIf="element.Status == 1" mat-icon-button color="warn" matTooltip="Cancel" (click)="changeStatus(element,false)">
+								<mat-icon>cancel</mat-icon>
+							</button>
+							<button *ngIf="element.Status != 1 && element.Status < 5" mat-icon-button color="primary" matTooltip="Upgrade Status" (click)="changeStatus(element,true)">
+								<mat-icon>done_all</mat-icon>
 							</button>
 
 						</mat-cell>

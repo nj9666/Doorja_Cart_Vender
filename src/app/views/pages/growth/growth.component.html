@@ -1,1 +1,80 @@
-<p>growth works!</p>
+<div class="mb-3">
+	Showing results for
+	<div class="btn-group btn-group-sm d-inline-block" role="group" aria-label="Small button group">
+		<button type="button" [ngClass]="cday == 7?'kt-badge--brand':'kt-badge--unified-brand'" class="btn kt-badge--inline kt-badge  kt-badge--rounded kt-badge--bold" (click)="loadgrowth(7)">Last 7 days</button>
+		<button type="button" [ngClass]="cday == 30?'kt-badge--brand':'kt-badge--unified-brand'" class="btn kt-badge--inline kt-badge kt-badge--rounded kt-badge--bold" (click)="loadgrowth(30)">Last 30 days</button>
+		<button type="button" [ngClass]="cday == 90?'kt-badge--brand':'kt-badge--unified-brand'" class="btn kt-badge--inline kt-badge kt-badge--rounded kt-badge--bold" (click)="loadgrowth(90)">Last 90 days</button>
+	</div>
+	Your performance over the last 7 days (8th May - 14th May)
+</div>
+<div class="kt-section">
+	<div class="kt-section__title">
+		Sales
+	</div>
+	<div class="kt-section__content">
+		<div class="row">
+			<div class="col-md-3">
+				<mat-card class="example-card">
+					<mat-card-header>
+						<mat-card-title>{{seleInRupee | currency:'INR'}}</mat-card-title>
+						<mat-card-subtitle>Sales in Rupees ></mat-card-subtitle>
+					</mat-card-header>
+					<mat-card-content>
+						<p>
+							{{ldate | date:'dd MMM'}} to {{cdate | date:'dd MMM'}} : {{seleInRupee | currency:'INR'}}
+						</p>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-3">
+				<mat-card class="example-card">
+					<mat-card-header>
+						<mat-card-title>{{seleInUnit}}</mat-card-title>
+						<mat-card-subtitle>Sales in Units ></mat-card-subtitle>
+					</mat-card-header>
+					<mat-card-content>
+						<p>
+							{{ldate | date:'dd MMM'}} to {{cdate | date:'dd MMM'}} : {{seleInUnit}}
+						</p>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+	<div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+	<div class="kt-section__title">
+		Product Quality
+    </div>    
+	<div class="kt-section__content">
+		<div class="row">
+			<div class="col-md-3">
+				<mat-card class="example-card">
+					<mat-card-header>
+						<mat-card-title>{{avgrating}}</mat-card-title>
+						<mat-card-subtitle>Average Product Rating ></mat-card-subtitle>
+					</mat-card-header>
+					<mat-card-content>
+						<p>
+							 --
+						</p>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-3">
+				<mat-card class="example-card">
+					<mat-card-header>
+						<mat-card-title>{{returnUint}}</mat-card-title>
+						<mat-card-subtitle>Customer Returns in Units ></mat-card-subtitle>
+					</mat-card-header>
+					<mat-card-content> 
+						<p>
+							{{ldate | date:'dd MMM'}} to {{cdate | date:'dd MMM'}} : {{returnUint}}
+						</p>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+	
+
+</div>

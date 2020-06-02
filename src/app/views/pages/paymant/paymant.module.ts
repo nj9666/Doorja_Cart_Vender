@@ -15,10 +15,13 @@ import { OverviewComponent } from './overview/overview.component';
 import { PreviousComponent } from './previous/previous.component';
 
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [PaymantComponent, OverviewComponent, PreviousComponent],
   imports: [
+    HttpClientModule,
     MaterialModule,
     FormsModule, 
     ReactiveFormsModule,
