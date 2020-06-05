@@ -1,14 +1,17 @@
+<form class="w-100" [formGroup]="stockForm" (submit)="stockForm.valid && AddStock()">
 <h1 mat-dialog-title>{{data.dialogtext}} Stock</h1>
+
 <div mat-dialog-content>
-  <h6>Current Stock ( {{ data.obj.Qty }} )</h6>
+  <h6>Current Stock ( {{ data.obj.qty }} )</h6>
   <mat-form-field>
     <mat-label>Add Stock</mat-label>
-    <input matInput [(ngModel)]="data.addStock">
-    <span matPrefix>{{ data.obj.Qty }} + &nbsp;</span>
+    <input matInput formControlName="newStock" number-only>
+    <span matPrefix>{{ data.obj.qty }} + &nbsp;</span>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
-</div>
 
+<div mat-dialog-actions>
+  <button mat-button type="button"  (click)="onNoClick()">No Thanks</button>
+  <button mat-button  type="submit">Ok</button>
+</div>
+</form>

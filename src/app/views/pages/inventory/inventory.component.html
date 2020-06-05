@@ -51,37 +51,37 @@
 				<mat-table #mattbl_inventory [dataSource]="dataSource_inventory" matSort>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Sku">
+					<ng-container matColumnDef="sku">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.sku}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Name">
+					<ng-container matColumnDef="pname">
 						<mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
-						<mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+						<mat-cell *matCellDef="let element"> {{element.pname}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="ColorId">
+					<ng-container matColumnDef="cname">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> ColorId </mat-header-cell>
 						<mat-cell *matCellDef="let element" class="mat-column-color"    >
-                            <span class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.ColorId}}" [ngStyle]="{'background-color':element.ColorId}"> </span>
-                             {{element.ColorId}} 
+                            <span class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.cname}}" [ngStyle]="{'background-color':element.cname}"> </span>
+                             {{element.cname}} 
                         </mat-cell>
 					</ng-container>
 
 					
 					<!-- Column -->
-					<ng-container matColumnDef="SizeId">
+					<ng-container matColumnDef="sname">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> SizeId </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.SizeId}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.sname}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Qty">
+					<ng-container matColumnDef="qty">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Current stock </mat-header-cell>
-						<mat-cell *matCellDef="let element"class="mat-column-id" > {{element.Qty}} </mat-cell>
+						<mat-cell *matCellDef="let element"class="mat-column-id" > {{element.qty}} </mat-cell>
                     </ng-container>
                     
                     <!-- Action Column -->

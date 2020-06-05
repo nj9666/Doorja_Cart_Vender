@@ -18,38 +18,50 @@
 				<mat-table #mattbl_return [dataSource]="dataSource_return" matSort>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Sku">
+					<ng-container matColumnDef="sku">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.sku}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Name">
+					<ng-container matColumnDef="productName">
 						<mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
-						<mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+						<mat-cell *matCellDef="let element"> {{element.productName}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="ColorId">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> ColorId </mat-header-cell>
+					<ng-container matColumnDef="qty">
+						<mat-header-cell *matHeaderCellDef mat-sort-header> Qty </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
+					</ng-container>
+
+					<!-- Column -->
+					<ng-container matColumnDef="color">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> color </mat-header-cell>
 						<mat-cell *matCellDef="let element" class="mat-column-color"    >
-                            <span class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.ColorId}}" [ngStyle]="{'background-color':element.ColorId}"> </span>
-                             {{element.ColorId}} 
+                            <span class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.color}}" [ngStyle]="{'background-color':element.color}"> </span>
+                             {{element.color}} 
                         </mat-cell>
 					</ng-container>
 					
 					<!-- Column -->
-					<ng-container matColumnDef="SizeId">
-						<mat-header-cell *matHeaderCellDef mat-sort-header > SizeId </mat-header-cell>
-						<mat-cell *matCellDef="let element" > {{element.SizeId}} </mat-cell>
+					<ng-container matColumnDef="size">
+						<mat-header-cell *matHeaderCellDef mat-sort-header > size </mat-header-cell>
+						<mat-cell *matCellDef="let element" > {{element.size}} </mat-cell>
 					</ng-container>
 
 					
                     
 					<!-- Column -->
-					<ng-container matColumnDef="Price">
+					<ng-container matColumnDef="price">
 						<mat-header-cell *matHeaderCellDef mat-sort-header > Amount </mat-header-cell>
-						<mat-cell *matCellDef="let element" >$ {{element.Price}} </mat-cell>
+						<mat-cell *matCellDef="let element" > {{element.price | currency:'INR'}} </mat-cell>
+                    </ng-container>
+                    
+					<!-- Column -->
+					<ng-container matColumnDef="username">
+						<mat-header-cell *matHeaderCellDef mat-sort-header > User Name </mat-header-cell>
+						<mat-cell *matCellDef="let element" >{{element.username}} </mat-cell>
                     </ng-container>
                     
                    			

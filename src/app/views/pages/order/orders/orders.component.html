@@ -68,6 +68,9 @@
 		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="ConfirmAll()" *ngIf="ConfirmOrder" mat-raised-button color="primary" matTooltip="Confirm All">
 			<span class="kt-hidden-mobile">Confirm All</span>
 		</a>
+		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="PrintAll()" *ngIf="pending_lable" mat-raised-button color="primary" matTooltip="Print All">
+			<span class="kt-hidden-mobile">Print All</span>
+		</a>
 		<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="applyFilter_All()" mat-raised-button matTooltip="Clear Fillter">
 			<span class="kt-hidden-mobile">Clear Fillter</span>
 		</a>
@@ -96,53 +99,53 @@
 
 
 					<!-- Column -->
-					<ng-container matColumnDef="OrderId">
+					<ng-container matColumnDef="orderIdV">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column"> OrderId </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column"> {{element.OrderId}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column"> {{element.orderIdV}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Sku">
+					<ng-container matColumnDef="sku">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.sku}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="ProName">
+					<ng-container matColumnDef="name">
 						<mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
-						<mat-cell *matCellDef="let element"> {{element.ProName}} </mat-cell>
+						<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
 					</ng-container>
 					<!-- Column -->
-					<ng-container matColumnDef="User">
+					<ng-container matColumnDef="userName">
 						<mat-header-cell *matHeaderCellDef mat-sort-header> User Name </mat-header-cell>
-						<mat-cell *matCellDef="let element"> {{element.User}} </mat-cell>
+						<mat-cell *matCellDef="let element"> {{element.userName}} </mat-cell>
 					</ng-container>
 
 
 
 
 					<!-- Column -->
-					<ng-container matColumnDef="Qty">
+					<ng-container matColumnDef="qty">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Qty </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Qty}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.qty}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Price">
+					<ng-container matColumnDef="price">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Price </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Price}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.price}} </mat-cell>
 					</ng-container>
 
 					<!-- Column -->
-					<ng-container matColumnDef="Status">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> Status </mat-header-cell>
+					<ng-container matColumnDef="orderSubStatus">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-color"> status </mat-header-cell>
 						<mat-cell *matCellDef="let element" class="mat-column-color">
-							<span *ngIf="element.Status == 1" class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending First Action </span>
-							<span *ngIf="element.Status == 2" class="kt-badge kt-badge--inline kt-badge--danger kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending Labels </span>
-							<span *ngIf="element.Status == 3" class="kt-badge kt-badge--inline kt-badge--warning kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Pending RTD </span>
-							<span *ngIf="element.Status == 4" class="kt-badge kt-badge--inline kt-badge--brand kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Dispatched </span>
-							<span *ngIf="element.Status == 5" class="kt-badge kt-badge--inline kt-badge--success kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Completed </span>
-							<span *ngIf="element.Status == 6" class="kt-badge kt-badge--inline kt-badge--dark  kt-badge--pill mr-2" matTooltip="{{element.Status}}"> Canceled </span>
+							<span *ngIf="element.orderSubStatus == 1" class="kt-badge kt-badge--inline kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Pending First Action </span>
+							<span *ngIf="element.orderSubStatus == 2" class="kt-badge kt-badge--inline kt-badge--danger kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Pending Labels </span>
+							<span *ngIf="element.orderSubStatus == 3" class="kt-badge kt-badge--inline kt-badge--warning kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Pending RTD </span>
+							<span *ngIf="element.orderSubStatus == 4" class="kt-badge kt-badge--inline kt-badge--brand kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Dispatched </span>
+							<span *ngIf="element.orderSubStatus == 5" class="kt-badge kt-badge--inline kt-badge--success kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Completed </span>
+							<span *ngIf="element.orderSubStatus == 6" class="kt-badge kt-badge--inline kt-badge--dark  kt-badge--pill mr-2" matTooltip="{{element.orderSubStatus}}"> Canceled </span>
 						</mat-cell>
 					</ng-container>
 
@@ -151,13 +154,13 @@
 						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
 						<mat-cell *matCellDef="let element">
 
-							<button *ngIf="element.Status == 1" mat-icon-button color="primary" matTooltip="Confirm" (click)="changeStatus(element,true)">
+							<button *ngIf="element.orderSubStatus == 1" mat-icon-button color="primary" matTooltip="Confirm" (click)="changeStatus(element,true)">
 								<mat-icon>check_circle</mat-icon>
 							</button>
-							<button *ngIf="element.Status == 1" mat-icon-button color="warn" matTooltip="Cancel" (click)="changeStatus(element,false)">
+							<button *ngIf="element.orderSubStatus == 1" mat-icon-button color="warn" matTooltip="Cancel" (click)="changeStatus(element,false)">
 								<mat-icon>cancel</mat-icon>
 							</button>
-							<button *ngIf="element.Status != 1 && element.Status < 5" mat-icon-button color="primary" matTooltip="Upgrade Status" (click)="changeStatus(element,true)">
+							<button *ngIf="element.orderSubStatus != 1 && element.orderSubStatus < 5" mat-icon-button color="primary" matTooltip="Upgrade Status" (click)="changeStatus(element,true)">
 								<mat-icon>done_all</mat-icon>
 							</button>
 

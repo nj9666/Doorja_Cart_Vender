@@ -10,11 +10,11 @@ import { MaterialModule } from '../../../../material-module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { ListingComponent } from './listing/listing.component';
-import { AddnewComponent } from './addnew/addnew.component';
+import { AddnewComponent,SizeDialog,colourDialog } from './addnew/addnew.component';
 import { ProductComponent } from './product.component';
 
 @NgModule({
-  declarations: [ListingComponent, AddnewComponent, ProductComponent],
+  declarations: [ListingComponent, AddnewComponent, ProductComponent,SizeDialog,colourDialog],
   imports: [
     MaterialModule,
     FormsModule, 
@@ -40,6 +40,9 @@ import { ProductComponent } from './product.component';
       },
       
     ]),
+  ],
+  entryComponents: [
+    SizeDialog,colourDialog,
   ]
 })
 export class ProductModule { }

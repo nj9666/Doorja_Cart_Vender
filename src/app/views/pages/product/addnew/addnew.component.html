@@ -16,10 +16,11 @@
 		</ng-container>
 	</kt-portlet-header>
 	<kt-portlet-body>
-		<mat-tab-group [(selectedIndex)]="selectedTab">
-			<mat-tab label="Basic info">
-				<ng-template matTabContent>
-					<form class="kt-form kt-form--group-seperator-dashed">
+		<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="productForm" (submit)="productForm.valid && AddProduct()">
+			<mat-tab-group [(selectedIndex)]="selectedTab">
+				<mat-tab label="Basic info">
+					<ng-template matTabContent>
+
 						<!--[formGroup]="productForm" -->
 
 						<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000" (close)="onAlertClose($event)">
@@ -32,7 +33,7 @@
 
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Sku">
+											<input matInput placeholder="Enter Sku" formControlName="Sku">
 											<mat-error>
 												Sku is
 												<strong>required</strong>
@@ -44,12 +45,12 @@
 									</div>
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Select Main Category" [matAutocomplete]="MCats">
-											<mat-autocomplete #MCats="matAutocomplete">
-												<mat-option *ngFor="let Category of MCategories | async" [value]="Category.Id">
-													{{ Category.Name }}
+
+											<mat-select formControlName="CatId">
+												<mat-option *ngFor="let Category of MCategories " [value]="Category.id">
+													{{ Category.name }}
 												</mat-option>
-											</mat-autocomplete>
+											</mat-select>
 											<mat-error>
 												Category is
 												<strong>required</strong>
@@ -59,30 +60,14 @@
 											</mat-hint>
 										</mat-form-field>
 									</div>
-									<div *ngIf="SelectedMCats" class="col-md-4 kt-margin-bottom-10-mobile">
-										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Select Sub-Category" [matAutocomplete]="SCats">
-											<mat-autocomplete #SCats="matAutocomplete">
-												<mat-option *ngFor="let Category of sCategories | async" [value]="Category.Id">
-													{{ Category.Name }}
-												</mat-option>
-											</mat-autocomplete>
-											<mat-error>
-												Category is
-												<strong>required</strong>
-											</mat-error>
-											<mat-hint align="start">Please select
-												<strong>Category</strong>
-											</mat-hint>
-										</mat-form-field>
-									</div>
+
 								</div>
 							</div>
 							<div class="kt-form__group">
 								<div class="row">
 									<div class="col-md-8 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Product Name">
+											<input matInput placeholder="Enter Product Name" formControlName="Name">
 											<mat-error>
 												Product Name is
 												<strong>required</strong>
@@ -94,7 +79,7 @@
 									</div>
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<section class="example-section">
-											<mat-checkbox class="example-margin">
+											<mat-checkbox class="example-margin" formControlName="UserListing">
 												User Listing
 											</mat-checkbox>
 										</section>
@@ -105,23 +90,21 @@
 								<div class="row">
 									<div class="col-md-6 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<textarea matInput rows="7" placeholder="Enter Description"></textarea>
+											<textarea matInput rows="7" placeholder="Enter Description" formControlName="Description"></textarea>
 										</mat-form-field>
 									</div>
 									<div class="col-md-6 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<textarea matInput rows="7" placeholder="Enter Product Tags"></textarea>
+											<textarea matInput rows="7" placeholder="Enter Product Tags" formControlName="Tags"></textarea>
 										</mat-form-field>
 									</div>
 								</div>
 							</div>
 						</div>
-					</form>
-				</ng-template>
-			</mat-tab>
-			<mat-tab label="Package info">
-				<ng-template matTabContent>
-					<form class="kt-form kt-form--group-seperator-dashed">
+					</ng-template>
+				</mat-tab>
+				<mat-tab label="Package info">
+					<ng-template matTabContent>
 						<!--[formGroup]="productForm" -->
 
 						<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000" (close)="onAlertClose($event)">
@@ -133,7 +116,7 @@
 								<div class="row">
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Pack Weight">
+											<input matInput placeholder="Enter Pack Weight" formControlName="PackWeight" number-only>
 											<mat-error>
 												Pack Weight is
 												<strong>required</strong>
@@ -145,7 +128,7 @@
 									</div>
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Pack Height">
+											<input matInput placeholder="Enter Pack Height" formControlName="PackHeight" number-only>
 											<mat-error>
 												Pack Height is
 												<strong>required</strong>
@@ -161,7 +144,7 @@
 								<div class="row">
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Pack Lenght">
+											<input matInput placeholder="Enter Pack Lenght" formControlName="PackLenght" number-only>
 											<mat-error>
 												Pack Lenght is
 												<strong>required</strong>
@@ -173,7 +156,8 @@
 									</div>
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Pack Breadth">
+											<input matInput placeholder="Enter Pack Breadth" formControlName="PackBreadth" number-only>
+
 											<mat-error>
 												Pack Breadth is
 												<strong>required</strong>
@@ -189,14 +173,14 @@
 								<div class="row">
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<section class="example-section pl-4">
-											<mat-checkbox class="example-margin">
+											<mat-checkbox class="example-margin" formControlName="IsReturnable">
 												Is Returnable
 											</mat-checkbox>
 										</section>
 									</div>
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Return Days">
+											<input matInput placeholder="Enter Return Days" formControlName="ReturnDays">
 											<mat-error>
 												Return Days is
 												<strong>required</strong>
@@ -212,62 +196,59 @@
 								<div class="row">
 									<div class="col-md-6 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<textarea matInput rows="7" placeholder="Enter Policy"></textarea>
+											<textarea matInput rows="7" placeholder="Enter Policy" formControlName="Policy"></textarea>
 										</mat-form-field>
 									</div>
 								</div>
 							</div>
+							<div class="kt-form__group">
+								<div class="row">
+									<div class="col-md-6 kt-margin-bottom-10-mobile">
+										<button class="btn btn-primary kt-margin-r-10" color="primary" ty mat-raised-button matTooltip="Save & Continue">
+											<span class="kt-hidden-mobile">Save</span>
+										</button>
+
+									</div>
+								</div>
+							</div>
 						</div>
-					</form>
-				</ng-template>
-			</mat-tab>
+					</ng-template>
+				</mat-tab>
 
-			<mat-tab label="Product variety">
-				<ng-template matTabContent>
-					<kt-portlet class="mb-0">
-						<kt-portlet-header [class]="'kt-portlet__head--lg'">
-							<ng-container ktPortletTitle>
-								<h3 class="kt-portlet__head-title">
-									<span> Product variety list</span>
-								</h3>
-							</ng-container>
+				<mat-tab label="Product variety" *ngIf="subProNo">
+					<ng-template matTabContent>
+						<kt-portlet class="mx-3 shadow">
+							<kt-portlet-header [class]="'kt-portlet__head--lg'">
+								<ng-container ktPortletTitle>
+									<h3 class="kt-portlet__head-title">
+										<span> Add New Product variety</span>
+									</h3>
+								</ng-container>
 
-							<ng-container ktPortletTools>
-								<button (click)="createProduct()" mat-raised-button matTooltip="Create new Product" color="primary" type="button">
+								<ng-container ktPortletTools>
+									<!-- <button (click)="createProduct()" mat-raised-button matTooltip="Create new Product" color="primary" type="button">
 									<span>New Product variety</span>
-								</button>
+								</button> -->
 
-							</ng-container>
-						</kt-portlet-header>
-						<kt-portlet-body>
-
-							<mat-accordion>
-								<mat-expansion-panel>
-									<mat-expansion-panel-header>
-										<mat-panel-title>
-											<span class="mr-2 kt-badge kt-badge--md" [ngStyle]="{'background-color':'#f00'}"></span>
-											XL - (45)
-										</mat-panel-title>
-										<mat-panel-description>
-											$ 999 - <s class="ml-2">$ 1500</s>
-										</mat-panel-description>
-									</mat-expansion-panel-header>
-
+								</ng-container>
+							</kt-portlet-header>
+							<kt-portlet-body>
+								<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="subproductForm" (submit)="subproductForm.valid && AddsubProduct()">
 									<div class="kt-form__group">
 										<div class="row">
-											<div class="col-md-2 kt-margin-bottom-10-mobile">
+											<div class="col-md-2 kt-margin-bottom-10-mobile d-flex">
 												<mat-form-field class="example-full-width">
 													<mat-label>Colour</mat-label>
-													<mat-select>
+													<mat-select formControlName="ColorId">
 														<mat-optgroup label="Your Colors">
-															<mat-option *ngFor="let color of colors" [value]="color.name">
+															<mat-option *ngFor="let color of yourcolors" [value]="color.id">
 																<span class="mr-2 kt-badge kt-badge--md" [ngStyle]="{'background-color':color.name}"></span>
 																{{color.name}}
 															</mat-option>
 														</mat-optgroup>
 
 														<mat-optgroup label="Other Colors">
-															<mat-option *ngFor="let color of colors" [value]="color.name">
+															<mat-option *ngFor="let color of admincolors" [value]="color.id">
 																<span class="mr-2 kt-badge kt-badge--md" [ngStyle]="{'background-color':color.name}"></span>
 																{{color.name}}
 															</mat-option>
@@ -275,36 +256,46 @@
 
 													</mat-select>
 												</mat-form-field>
+												<div class="">
+													<button mat-icon-button type="button" (click)="openDialog(2)" color="accent" aria-label="Example icon button with a plus one icon">
+														<mat-icon>plus_one</mat-icon>
+													</button>
+												</div>
 											</div>
-											<div class="col-md-2 kt-margin-bottom-10-mobile">
+											<div class="col-md-2 kt-margin-bottom-10-mobile d-flex">
 												<mat-form-field class="example-full-width">
 													<mat-label>Sizes</mat-label>
-													<mat-select>
+													<mat-select formControlName="SizeId">
 														<mat-optgroup label="Your sizes">
-															<mat-option *ngFor="let size of sizes" [value]="size.name">
+															<mat-option *ngFor="let size of yoursize" [value]="size.id">
 																{{size.name}}
 															</mat-option>
 														</mat-optgroup>
 
 														<mat-optgroup label="Other sizes">
-															<mat-option *ngFor="let size of sizes" [value]="size.name">
+															<mat-option *ngFor="let size of adminsize" [value]="size.id">
 																{{size.name}}
 															</mat-option>
 														</mat-optgroup>
 
 													</mat-select>
 												</mat-form-field>
+												<div class="">
+													<button mat-icon-button type="button" (click)="openDialog(1)" color="accent" aria-label="Example icon button with a plus one icon">
+														<mat-icon>plus_one</mat-icon>
+													</button>
+												</div>
 											</div>
 											<div class="col-md-2 kt-margin-bottom-10-mobile">
 												<mat-form-field class="example-full-width">
 													<mat-label>Quantity</mat-label>
-													<input matInput type="number" class="example-right-align">
+													<input matInput type="number" class="example-right-align" formControlName="Qty">
 												</mat-form-field>
 											</div>
 											<div class="col-md-2 kt-margin-bottom-10-mobile">
 												<mat-form-field class="example-full-width">
 													<mat-label>Price</mat-label>
-													<input matInput type="number" class="example-right-align">
+													<input matInput type="number" class="example-right-align" formControlName="Price">
 													<span matPrefix>$&nbsp;</span>
 													<span matSuffix>.00</span>
 												</mat-form-field>
@@ -312,47 +303,82 @@
 											<div class="col-md-2 kt-margin-bottom-10-mobile">
 												<mat-form-field class="example-full-width">
 													<mat-label>Offer Price</mat-label>
-													<input matInput type="number" class="example-right-align">
+													<input matInput type="number" class="example-right-align" formControlName="OfferPrice">
 													<span matPrefix>$&nbsp;</span>
 													<span matSuffix>.00</span>
 												</mat-form-field>
-                                            </div>
-                                            <div class="col-md-2 kt-margin-bottom-10-mobile text-right">
-                                                <button (click)="reset()" mat-raised-button matTooltip="Reset Product"  type="button" class="kt-margin-r-10">
-                                                    <span>Reset</span>
-                                                </button>
-                                                <button (click)="saveSubPro()" mat-raised-button matTooltip="Save Product" color="primary" type="button">
-                                                    <span>Save</span>
-                                                </button>
-                                            </div>
+											</div>
+											<div class="col-md-2 kt-margin-bottom-10-mobile text-right">
+												<button (click)="resetsub()" mat-raised-button matTooltip="Reset Product" type="button" class="kt-margin-r-10">
+													<span>Reset</span>
+												</button>
+												<button mat-raised-button matTooltip="Save Product" color="primary" type="submit">
+													<span>Save</span>
+												</button>
+											</div>
 										</div>
-                                    </div>
-                                    <div class="kt-form__group">
-                                        <div class="row">
-                                            <div class="img_box_wrap" *ngFor="let pro_img of pro_imgs">
-                                                <div class="img_box">
-                                                    <img src="assets/media/products/{{pro_img.name}}" alt="">
-                                                    <a href="" class="kt-badge kt-badge--danger rem_btn"><i class="la la-close"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <label class="img_input_box_wrap text-primary">
-                                                <span><i class="la la-plus"></i> Add Images</span>
-                                                <input type="file" name="Pimg" id="pImg" >
-                                            </label>
-                                        </div>
-                                    </div>
+									</div>
+									<div class="kt-form__group">
+										<div class="row">
+											<div class="img_box_wrap" *ngFor="let pro_img of pro_imgs">
+												<div class="img_box">
+													<img src="assets/media/products/{{pro_img.name}}" alt="">
+													<a href="" class="kt-badge kt-badge--danger rem_btn"><i class="la la-close"></i>
+													</a>
+												</div>
+											</div>
+											<label class="img_input_box_wrap text-primary">
+												<span><i class="la la-plus"></i> Add Images</span>
+												<input type="file" name="Pimg" id="pImg">
+											</label>
+										</div>
+									</div>
+								</form>
+							</kt-portlet-body>
+						</kt-portlet>
+						<div class="mx-3">
+							<mat-accordion>
+								<mat-expansion-panel *ngFor="let subpro of SubProductTbl">
+									<mat-expansion-panel-header>
+										<mat-panel-title>
+											<span class="mr-2 kt-badge kt-badge--md" [ngStyle]="{'background-color':subpro.color.name}"></span>
+											{{subpro.color.name}} - {{subpro.size.name}} - ({{subpro.qty}})
+										</mat-panel-title>
+										<mat-panel-description>
+											{{subpro.price | currency:'INR'}} - <s class="ml-2">{{subpro.offerPrice | currency:'INR'}}</s>
+										</mat-panel-description>
+									</mat-expansion-panel-header>
+
+									<div class="row">
+										<div class="col-md-10"></div>
+										<div class="col-md-2 text-right">
+											<button mat-raised-button matTooltip="Create new Product" color="primary" type="button">
+												<span>Edit</span>
+											</button>
+
+										</div>
+									</div>
+									<div class="kt-form__group">
+										<div class="row">
+											<div class="img_box_wrap" *ngFor="let pro_img of subpro.productImg">
+												<div class="img_box">
+													<img src="assets/media/products/{{pro_img.name}}" alt="">
+
+												</div>
+											</div>
+										</div>
+									</div>
 
 
 								</mat-expansion-panel>
-								
+
 							</mat-accordion>
+						</div>
 
-						</kt-portlet-body>
-					</kt-portlet>
+					</ng-template>
+				</mat-tab>
+			</mat-tab-group>
 
-				</ng-template>
-			</mat-tab>
-		</mat-tab-group>
+		</form>
 	</kt-portlet-body>
 </kt-portlet>
