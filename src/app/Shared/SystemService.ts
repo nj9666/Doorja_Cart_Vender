@@ -18,6 +18,7 @@ const BaseUrl = 'https://localhost:44336/api/ShopAPI/';
 @Injectable()
 export class SystemService {
 
+    apiUrl = 'https://localhost:44336/';
 
     disp_timeline : any;
     HOST: string;

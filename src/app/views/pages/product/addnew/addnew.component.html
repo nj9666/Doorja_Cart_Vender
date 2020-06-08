@@ -318,22 +318,23 @@
 											</div>
 										</div>
 									</div>
+									
+								</form>
 									<div class="kt-form__group">
 										<div class="row">
 											<div class="img_box_wrap" *ngFor="let pro_img of pro_imgs">
 												<div class="img_box">
-													<img src="assets/media/products/{{pro_img.name}}" alt="">
+													<img src="{{service.apiUrl}}public/{{pro_img.Path}}" alt="">
 													<a href="" class="kt-badge kt-badge--danger rem_btn"><i class="la la-close"></i>
 													</a>
 												</div>
 											</div>
-											<label class="img_input_box_wrap text-primary">
+											<label class="img_input_box_wrap text-primary" (click)="onClick('header_banner')">
 												<span><i class="la la-plus"></i> Add Images</span>
-												<input type="file" name="Pimg" id="pImg">
 											</label>
+											<input type="file" id="fileUpload_header_banner" name="fileUpload" accept="{{accept_header_banner}}" style="display:none;" />
 										</div>
 									</div>
-								</form>
 							</kt-portlet-body>
 						</kt-portlet>
 						<div class="mx-3">
@@ -362,7 +363,7 @@
 										<div class="row">
 											<div class="img_box_wrap" *ngFor="let pro_img of subpro.productImg">
 												<div class="img_box">
-													<img src="assets/media/products/{{pro_img.name}}" alt="">
+													<img src="{{service.apiUrl}}public/subproduct/{{pro_img.path}}" alt="">
 
 												</div>
 											</div>
@@ -382,3 +383,22 @@
 		</form>
 	</kt-portlet-body>
 </kt-portlet>
+<div class="col-lg-6">
+	<!-- <button mat-button color="primary" (click)="onClick('header_banner')">
+		<mat-icon>file_upload</mat-icon> {{text_header_banner}}
+	</button> <br /> -->
+	<!-- <ul>
+		<li *ngFor="let file of files_header_banner" [@fadeInOut]="file.state">
+			<mat-progress-bar [value]="file.progress"></mat-progress-bar>
+			<span id="file-label_header_banner"> {{file.data.name}}
+				<a title="Retry" (click)="retryFile(file, 'header_banner')" *ngIf="file.canRetry">
+					<mat-icon>refresh</mat-icon>
+				</a>
+				<a title="Cancel" (click)="cancelFile(file, 'header_banner')" *ngIf="file.canCancel">
+					<mat-icon>cancel</mat-icon>
+				</a>
+			</span>
+		</li>
+	</ul> -->
+	<!-- <input type="file" id="fileUpload_header_banner" name="fileUpload" accept="{{accept_header_banner}}" style="display:none;" /> -->
+</div>

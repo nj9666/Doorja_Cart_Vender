@@ -1,11 +1,16 @@
 // Angular
-import { Component, OnInit,  ViewChild, Inject} from '@angular/core';
+import { Component, OnInit,  ViewChild, Inject, Input, Output, EventEmitter} from '@angular/core';
 import { MatSort,MatPaginator,MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SystemService } from '../../../../Shared/SystemService';
+import { HttpClient, HttpResponse, HttpRequest, 
+  HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import { of } from 'rxjs/observable/of';
+import { catchError, last, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'kt-addnew',
@@ -13,9 +18,9 @@ import { SystemService } from '../../../../Shared/SystemService';
   styleUrls: ['./addnew.component.scss']
 })
 export class AddnewComponent implements OnInit {
-  subProNo:Boolean = true; 
+  subProNo:Boolean = false; 
   MCategories:any = [];
-  productid:number = 21;
+  productid:number;
   yoursize:any = [];
   adminsize:any = [];
   yourcolors:any = [];
@@ -26,22 +31,17 @@ export class AddnewComponent implements OnInit {
   productForm: FormGroup;
   subproductForm: FormGroup;
   SubProductTbl:SubProductTbl[] = [];
-  pro_imgs=[
-    {id:1,name:"product2.jpg"},
-    {id:2,name:"product3.jpg"},
-    {id:3,name:"product4.jpg"},
-    {id:4,name:"product5.jpg"},
-    {id:5,name:"product6.jpg"},
-    {id:6,name:"product10.jpg"},
-    {id:7,name:"product12.jpg"},
-    {id:8,name:"product11.jpg"},
-    {id:9,name:"product8.jpg"},
-  ];
+  pro_imgs=[];
 
+
+  
+ @Input() text_header_banner = 'Upload Banner'; @Input() accept_header_banner = 'image/*'; @Input() param_header_banner = 'file';
+ @Output() complete_header_banner = new EventEmitter<string>(); files_header_banner: Array<FileUploadModel> = [];
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private _http: HttpClient,
     public dialog: MatDialog,
     public service: SystemService,
   ) { 
@@ -191,6 +191,7 @@ export class AddnewComponent implements OnInit {
             var sp = {
 
             };
+            console.log(element);
             this.SubProductTbl.push(element);
         });
        
@@ -215,7 +216,16 @@ export class AddnewComponent implements OnInit {
     });
   }
   AddsubProduct(){
-    this.service.Data.ExecuteAPI<any>("subProduct/Insert/"+this.productid,this.subproductForm.value).then((data:any) =>
+    var sendsubPro = {
+      SizeId:this.subproductForm.value.SizeId,
+      ColorId:this.subproductForm.value.ColorId,
+      Price:this.subproductForm.value.Price,
+      OfferPrice:this.subproductForm.value.OfferPrice,
+      Qty:this.subproductForm.value.Qty,
+      ProductImg:this.pro_imgs
+    }
+console.log(sendsubPro);
+    this.service.Data.ExecuteAPI<any>("subProduct/Insert/"+this.productid,sendsubPro).then((data:any) =>
     {
       console.log(data);
       if (data.success)
@@ -229,6 +239,87 @@ export class AddnewComponent implements OnInit {
       }
     });
   }
+
+
+
+  uploadFile_header_banner(file: FileUploadModel)
+  {
+    const fd = new FormData(); fd.append(this.param_header_banner, file.data);
+    const req = new HttpRequest('POST', 'https://localhost:44336/api/ShopAPI/Upload_Image', fd, { reportProgress: true });
+    file.inProgress = true;
+    file.sub = this._http.request(req).pipe( map(event => { switch (event.type) {
+      case HttpEventType.UploadProgress:
+        file.progress = Math.round(event.loaded * 100 / event.total);
+        break;
+      case HttpEventType.Response:
+        return event; }}),
+    tap(message => { }), last(),
+    catchError((error: HttpErrorResponse) => { file.inProgress = false; file.canRetry = true; return of(`${file.data.name} upload failed.`); }))
+    .subscribe( (event: any) => {
+      if(event.body.success)
+      {
+        var img_name = event.body.data;
+        var img = {
+          "Path":img_name,
+        }
+        this.pro_imgs.push(img);
+        console.log(this.pro_imgs);
+      }
+      if (typeof (event) === 'object')
+      {
+        this.removeFileFromArray(file, "header_banner");
+        this.complete_header_banner.emit(event.body);
+      }
+    });
+  }
+
+  removeFileFromArray(file: FileUploadModel, inputof) {
+    
+    if(inputof == "header_banner") { const index = this.files_header_banner.indexOf(file); if (index > -1) { this.files_header_banner.splice(index, 1); }}
+  }
+  
+  uploadedimgs :any = "";
+    uploadFiles(inputof) {
+    this.uploadedimgs = ""; let i = 0;
+    const fileUpload = document.getElementById('fileUpload_'+inputof) as HTMLInputElement;
+    if(inputof == "header_banner")
+      fileUpload.value = ''; this.files_header_banner.forEach(file => { this.uploadFile_header_banner(file); });
+    
+  }
+  
+  
+    retryFile(file: FileUploadModel, inputof) {
+    let files; files.push(file);
+    this.uploadedimgs = "";
+    if(inputof == "header_banner") { this.uploadFile_header_banner(file); file.canRetry = false; }
+  }
+
+
+  onClick(inputof)
+  {
+    if((inputof == "potfolio_tag_video") || inputof != "potfolio_tag_video")
+    {
+      const fileUpload = document.getElementById('fileUpload_' + inputof) as HTMLInputElement;
+
+      fileUpload.onchange = () => {
+        for (let index = 0; index < fileUpload.files.length; index++) {
+          const file = fileUpload.files[index];
+
+          if(inputof == "header_banner")
+            this.files_header_banner.push({ data: file, state: 'in', inProgress: false, progress: 0, canRetry: false, canCancel: true });
+
+        }
+        this.uploadFiles(inputof);
+      };
+      fileUpload.click();
+    }
+    else
+    {
+      this.service.error("Please select any category first!!!");
+    }
+  }
+
+
 }
 
 
@@ -427,3 +518,13 @@ export class ProductImg{
   Path:string;
 }
 var isdataChange = false;
+
+export class FileUploadModel {
+  data: File;
+  state: string;
+  inProgress: boolean;
+  progress: number;
+  canRetry: boolean;
+  canCancel: boolean;
+  sub?: Subscription;
+}
