@@ -35,6 +35,10 @@ import { ProductComponent } from './product.component';
             path: 'addnew',
             component: AddnewComponent
           },
+          {
+            path: 'addnew/:id',
+            component: AddnewComponent
+          },
           
         ]
       },

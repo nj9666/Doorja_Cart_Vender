@@ -20,6 +20,8 @@ export class SystemService {
 
     apiUrl = 'https://localhost:44336/';
 
+    public BaseUrlPic = 'https://localhost:44336/public/subproduct/';
+    
     disp_timeline : any;
     HOST: string;
     //public AuthHub: SignalR.Hub.Proxy; 

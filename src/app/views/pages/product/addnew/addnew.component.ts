@@ -18,7 +18,8 @@ import { catchError, last, map, tap } from 'rxjs/operators';
   styleUrls: ['./addnew.component.scss']
 })
 export class AddnewComponent implements OnInit {
-  subProNo:Boolean = false; 
+  subProNo:Boolean = false;
+  editdatas: any; 
   MCategories:any = [];
   productid:number;
   yoursize:any = [];
@@ -26,19 +27,24 @@ export class AddnewComponent implements OnInit {
   yourcolors:any = [];
   admincolors:any = [];
   venderid = JSON.parse( localStorage.getItem('user_Data')).id;
-  product: productModel;
+  productname: any;
+  productsku: any;
   selectedTab: number = 0;
   productForm: FormGroup;
   subproductForm: FormGroup;
   SubProductTbl:SubProductTbl[] = [];
   pro_imgs=[];
-
+  qpid: any=0;
+subProIdEdit:number = 0;
+productIdEdit:number = 0;
+  isEdit:Boolean = false;
 
   
  @Input() text_header_banner = 'Upload Banner'; @Input() accept_header_banner = 'image/*'; @Input() param_header_banner = 'file';
  @Output() complete_header_banner = new EventEmitter<string>(); files_header_banner: Array<FileUploadModel> = [];
 
   constructor(
+    private _Activatedroute:ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private _http: HttpClient,
@@ -46,6 +52,13 @@ export class AddnewComponent implements OnInit {
     public service: SystemService,
   ) { 
     isdataChange = true;
+    this._Activatedroute.paramMap.subscribe(params => { 
+      this.qpid = params.get('id') == null ? -1 : params.get('id');
+      if(this.qpid > 0){
+        this.isEdit = true;
+      }
+    });
+
     this.loadSize();
     this.loadColour();
     this.createForm();
@@ -84,15 +97,57 @@ export class AddnewComponent implements OnInit {
 
   ngOnInit() {
     this.loadCat();
-    this.loadSubPro();
+
+    if(this.qpid > 0)
+    {
+      this.geteditdata()
+    }
+  }
+
+  geteditdata()
+  {
+    this.service.Data.ExecuteAPI_Get<any>("Product/Get/"+this.qpid).then((data:any) =>
+		{
+      if (data.success)
+      {
+        this.editdatas = data.data;
+        console.log(this.editdatas);
+        this.productname = this.editdatas.name;
+        this.productsku = this.editdatas.sku;
+        this.productForm = this.fb.group({
+          Sku: [{value:this.editdatas.sku,disabled: true}, Validators.required],
+          CatId: [this.editdatas.catId, Validators.required],
+          Name: [this.editdatas.name, Validators.required],
+          UserListing: [this.editdatas.userListing],
+          Description: [this.editdatas.description, Validators.required],
+          Tags: [this.editdatas.tags, Validators.required],
+    
+          
+          PackWeight: [this.editdatas.packWeight, Validators.required],
+          PackLenght: [this.editdatas.packLenght, Validators.required],
+          PackBreadth: [this.editdatas.packBreadth, Validators.required],
+          PackHeight: [this.editdatas.packHeight, Validators.required],
+    
+          IsReturnable: [this.editdatas.isReturnable],
+          ReturnDays: [this.editdatas.returnDays],
+          Policy: [this.editdatas.policy],
+    
+        });
+
+        this.isEdit = true;
+        this.subProNo = true; 
+        this.productid = this.qpid;
+        this.loadSubPro();
+      }
+		});
   }
 
   getComponentTitle() {
 		let result = 'Create product';
-		if (!this.product || !this.product.Id) {
+		if (!this.isEdit) {
 			return result;
 		}
-		result = `Edit product - ${this.product.Name} - ${this.product.Sku}`;
+		result = `Edit product - ${this.productname} - ${this.productsku}`;
 		return result;
   }
   goBackWithoutId	() {
@@ -199,47 +254,109 @@ export class AddnewComponent implements OnInit {
       }
 		});
   }
-  AddProduct(){
-    console.log(this.productForm.value);
-    this.service.Data.ExecuteAPI<any>("Product/Insert",this.productForm.value).then((data:any) =>
-    {
-      console.log(data);
-      if (data.success)
+  AddProduct(isEdit){
+    if (isEdit) {
+      console.log(this.productForm.value);
+      this.service.Data.ExecuteAPI<any>("Product/Edit/"+this.qpid,this.productForm.value).then((data:any) =>
       {
-        this.subProNo = true; 
-        this.selectedTab = 2;
-        this.productid = data.data.id
-        this.service.success(data.message);
-      }else{
-        this.service.error(data.message);
-      }
-    });
-  }
-  AddsubProduct(){
-    var sendsubPro = {
-      SizeId:this.subproductForm.value.SizeId,
-      ColorId:this.subproductForm.value.ColorId,
-      Price:this.subproductForm.value.Price,
-      OfferPrice:this.subproductForm.value.OfferPrice,
-      Qty:this.subproductForm.value.Qty,
-      ProductImg:this.pro_imgs
+        console.log(data);
+        if (data.success)
+        {
+          this.subProNo = true; 
+          this.selectedTab = 2;
+          this.productid = data.data.id
+          this.service.success(data.message);
+        }else{
+          this.service.error(data.message);
+        }
+      });
+    }else{
+      console.log(this.productForm.value);
+      this.service.Data.ExecuteAPI<any>("Product/Insert",this.productForm.value).then((data:any) =>
+      {
+        console.log(data);
+        if (data.success)
+        {
+          this.subProNo = true; 
+          this.selectedTab = 2;
+          this.productid = data.data.id
+          this.service.success(data.message);
+        }else{
+          this.service.error(data.message);
+        }
+      });
     }
-console.log(sendsubPro);
-    this.service.Data.ExecuteAPI<any>("subProduct/Insert/"+this.productid,sendsubPro).then((data:any) =>
-    {
-      console.log(data);
-      if (data.success)
-      {
-        this.subProNo = true; 
-        this.selectedTab = 2;
-        this.loadSubPro();
-        this.service.success(data.message);
-      }else{
-        this.service.error(data.message);
+  }
+  AddsubProduct(isEdit){
+    if (isEdit) {
+      var sendsubProEdit = {
+        ProductId: this.productid,
+        SizeId:this.subproductForm.value.SizeId,
+        ColorId:this.subproductForm.value.ColorId,
+        Price:this.subproductForm.value.Price,
+        OfferPrice:this.subproductForm.value.OfferPrice,
+        Qty:this.subproductForm.value.Qty,
+        ProductImg:this.pro_imgs
       }
+      console.log(sendsubPro);
+      this.service.Data.ExecuteAPI<any>("subProduct/Edit/"+this.subProIdEdit,sendsubProEdit).then((data:any) =>
+      {
+        console.log(data);
+        if (data.success)
+        {
+          this.subProNo = true; 
+          this.selectedTab = 2;
+          this.loadSubPro();
+          this.service.success(data.message);
+        }else{
+          this.service.error(data.message);
+        }
+      });
+    }else{
+      var sendsubPro = {
+        SizeId:this.subproductForm.value.SizeId,
+        ColorId:this.subproductForm.value.ColorId,
+        Price:this.subproductForm.value.Price,
+        OfferPrice:this.subproductForm.value.OfferPrice,
+        Qty:this.subproductForm.value.Qty,
+        ProductImg:this.pro_imgs
+      }
+      console.log(sendsubPro);
+      this.service.Data.ExecuteAPI<any>("subProduct/Insert/"+this.productid,sendsubPro).then((data:any) =>
+      {
+        console.log(data);
+        if (data.success)
+        {
+          this.subProNo = true; 
+          this.selectedTab = 2;
+          this.loadSubPro();
+          this.service.success(data.message);
+        }else{
+          this.service.error(data.message);
+        }
+      });
+    }
+  }
+  editsubprod(spid)
+  {
+    this.subProIdEdit = spid;
+    let subpdt = this.SubProductTbl.find(f => f.id == spid);
+    this.subproductForm = this.fb.group({
+      ColorId: [subpdt['colorId'], Validators.required],
+      SizeId: [subpdt['sizeId'], Validators.required],
+      Qty: [subpdt['qty'], Validators.required],
+      Price: [subpdt['price'], Validators.required],
+      OfferPrice: [subpdt['offerPrice'], Validators.required],
+    });
+    
+    this.pro_imgs = [];
+    subpdt['productImg'].forEach(element => {
+      var img = {
+        "Path": "subproduct/"+element.path,
+      }
+      this.pro_imgs.push(img);
     });
   }
-
 
 
   uploadFile_header_banner(file: FileUploadModel)
@@ -264,6 +381,8 @@ console.log(sendsubPro);
         }
         this.pro_imgs.push(img);
         console.log(this.pro_imgs);
+      }else{
+        this.service.error(event.body.message);
       }
       if (typeof (event) === 'object')
       {
@@ -319,6 +438,34 @@ console.log(sendsubPro);
     }
   }
 
+  removeImg(pt){
+    var Rimg = {
+      Path:pt
+    }
+    var spId = 0
+    if(this.subProIdEdit > 0){
+      spId = this.subProIdEdit;
+    }
+    console.log(Rimg);
+    this.service.Data.ExecuteAPI<any>("subProduct/productImg/Remove/"+spId,Rimg).then((data:any) =>
+    {
+      console.log(data);
+      if (data.success)
+      {
+        for( var i = 0; i < this.pro_imgs.length; i++)
+        {
+          if ( this.pro_imgs[i].Path === pt)
+          {
+            this.pro_imgs.splice(i, 1); i--;
+          }
+        }
+        console.log(this.pro_imgs);
+        this.service.success(data.message);
+      }else{
+        this.service.error(data.message);
+      }
+    });
+  }
 
 }
 
@@ -502,6 +649,7 @@ export class productModel {
 }
 export class SubProductTbl{
   Id:number;
+  id:number;
   ProductId:number;
   SizeId:number;
   ColorId:number;

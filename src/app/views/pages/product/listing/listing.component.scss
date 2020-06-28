@@ -1,7 +1,28 @@
-.mat-column-category{
-    flex: 0 0 200px;
+.mat-column-category {
+	flex: 0 0 200px;
 }
-.mat-column-price{
-    flex: 0 0 100px;
-    justify-content: center;
+
+.mat-column-price {
+	flex: 0 0 100px;
+	justify-content: center;
+}
+
+.propic {
+	max-height: 150px;
+	width: 100px;
+	text-align: center;
+}
+
+.propic img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.njbadge {
+	margin-left: -8px;
+	border: 3px solid #fff;
+	height: 20px;
+	width: 20px;
+	box-sizing: content-box;
+	padding: 0;
 }

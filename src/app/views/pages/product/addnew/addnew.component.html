@@ -5,18 +5,10 @@
 				<i class="la la-arrow-left"></i>
 				<span class="kt-hidden-mobile">Back</span>
 			</a>
-			<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()" [disabled]="selectedTab !== 0" mat-raised-button matTooltip="Reset changes">
-				<i class="la la-cog"></i>
-				<span class="kt-hidden-mobile">Reset</span>
-			</a>
-			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSumbit(false)" mat-raised-button matTooltip="Save & Continue">
-				<span class="kt-hidden-mobile">Save</span>
-			</a>
-
 		</ng-container>
 	</kt-portlet-header>
 	<kt-portlet-body>
-		<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="productForm" (submit)="productForm.valid && AddProduct()">
+		<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="productForm" (submit)="productForm.valid && AddProduct(isEdit)">
 			<mat-tab-group [(selectedIndex)]="selectedTab">
 				<mat-tab label="Basic info">
 					<ng-template matTabContent>
@@ -33,7 +25,7 @@
 
 									<div class="col-md-4 kt-margin-bottom-10-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Sku" formControlName="Sku">
+											<input matInput placeholder="Enter Sku" formControlName="Sku" >
 											<mat-error>
 												Sku is
 												<strong>required</strong>
@@ -205,7 +197,7 @@
 								<div class="row">
 									<div class="col-md-6 kt-margin-bottom-10-mobile">
 										<button class="btn btn-primary kt-margin-r-10" color="primary" ty mat-raised-button matTooltip="Save & Continue">
-											<span class="kt-hidden-mobile">Save</span>
+											<span class="kt-hidden-mobile">{{isEdit ? 'Update' : 'Save & Continue'}}</span>
 										</button>
 
 									</div>
@@ -233,7 +225,7 @@
 								</ng-container>
 							</kt-portlet-header>
 							<kt-portlet-body>
-								<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="subproductForm" (submit)="subproductForm.valid && AddsubProduct()">
+								<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="subproductForm" (submit)="subproductForm.valid && AddsubProduct(isEdit)">
 									<div class="kt-form__group">
 										<div class="row">
 											<div class="col-md-2 kt-margin-bottom-10-mobile d-flex">
@@ -325,7 +317,7 @@
 											<div class="img_box_wrap" *ngFor="let pro_img of pro_imgs">
 												<div class="img_box">
 													<img src="{{service.apiUrl}}public/{{pro_img.Path}}" alt="">
-													<a href="" class="kt-badge kt-badge--danger rem_btn"><i class="la la-close"></i>
+													<a href="javascript:void(0);" (click)="removeImg(pro_img.Path)" class="kt-badge kt-badge--danger rem_btn"><i class="la la-close"></i>
 													</a>
 												</div>
 											</div>
@@ -353,7 +345,7 @@
 									<div class="row">
 										<div class="col-md-10"></div>
 										<div class="col-md-2 text-right">
-											<button mat-raised-button matTooltip="Create new Product" color="primary" type="button">
+											<button mat-raised-button matTooltip="Create new Product" color="primary" type="button" (click)="editsubprod(subpro.id)">
 												<span>Edit</span>
 											</button>
 

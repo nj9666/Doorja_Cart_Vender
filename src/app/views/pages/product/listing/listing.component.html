@@ -17,6 +17,7 @@
 			<button (click)="createProduct()" mat-raised-button matTooltip="Create new Product" color="primary" type="button">
 				<span>New Product</span>
 			</button>
+			
 			<!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
 			<!-- mat-raised-button | Rectangular contained button w/ elevation  -->
 		</ng-container>
@@ -51,64 +52,59 @@
 							</mat-checkbox>
 						</mat-cell>
 					</ng-container>
-
+					<!-- Column -->
+					<ng-container matColumnDef="pic">
+						<mat-header-cell *matHeaderCellDef class="mat-column-category justify-content-center"> Product Pic </mat-header-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-category justify-content-center"> 
+							<div class="propic p-2">
+								<img src="{{this.service.BaseUrlPic}}{{element.pic}}" alt="">
+							</div>
+						</mat-cell>
+					</ng-container>
 					<!-- Position Column -->
-					<ng-container matColumnDef="Sku">
+					<ng-container matColumnDef="sku">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id"> Sku </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.Sku}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-id"> {{element.sku}} </mat-cell>
 					</ng-container>
 
 					<!-- Name Column -->
-					<ng-container matColumnDef="Name">
+					<ng-container matColumnDef="name">
 						<mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-						<mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+						<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
 					</ng-container>
 
 					<!-- Position Column -->
-					<ng-container matColumnDef="CatId">
+					<ng-container matColumnDef="catname">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-category"> Category </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-category"> {{element.CatId}} </mat-cell>
+						<mat-cell *matCellDef="let element" class="mat-column-category"> {{element.catname}} </mat-cell>
 					</ng-container>
 
 
 					<!-- Name Column -->
-					<ng-container matColumnDef="CurrentRating">
+					<ng-container matColumnDef="currentRating">
 						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id justify-content-center"> Rating </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id justify-content-center"> {{element.CurrentRating}} <span class="text-warning material-icons">
+						<mat-cell *matCellDef="let element" class="mat-column-id justify-content-center"> {{element.currentRating}} <span class="text-warning material-icons">
 								star
 							</span> </mat-cell>
 					</ng-container>
 
 					<!-- Name Column -->
-					<ng-container matColumnDef="ColorId">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id justify-content-center"> Colour </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id justify-content-center">
-							<span class="kt-badge kt-badge--inline kt-badge--pill" matTooltip="{{element.ColorId}}" [ngStyle]="{'background-color':element.ColorId}"> </span>
+					<ng-container matColumnDef="coloursList">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class=" justify-content-center"> Colour </mat-header-cell>
+						<mat-cell *matCellDef="let element" class=" justify-content-center">
+							<span *ngFor="let color of element.coloursList" class="njbadge kt-badge kt-badge--inline kt-badge--pill" matTooltip="{{color}}" [ngStyle]="{'background-color':color}"> </span>
 						</mat-cell>
 					</ng-container>
+					
+					
 					<!-- Name Column -->
-					<ng-container matColumnDef="SizeId">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-id justify-content-center"> SizeId </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-id justify-content-center"> {{element.SizeId}} </mat-cell>
-					</ng-container>
-					<!-- Name Column -->
-					<ng-container matColumnDef="Price">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-price"> Price </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-price">$ {{element.Price}} </mat-cell>
-					</ng-container>
-					<!-- Name Column -->
-					<ng-container matColumnDef="OfferPrice">
-						<mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-price"> OfferPrice </mat-header-cell>
-						<mat-cell *matCellDef="let element" class="mat-column-price">$ {{element.OfferPrice}} </mat-cell>
-					</ng-container>
-					<!-- Name Column -->
-					<ng-container matColumnDef="UserListing">
+					<ng-container matColumnDef="userListing">
 						<mat-header-cell *matHeaderCellDef class="mat-column-id justify-content-center"> InListing </mat-header-cell>
 						<mat-cell *matCellDef="let element" class="mat-column-id justify-content-center">
-							<span *ngIf="element.UserListing" class="material-icons text-success">
+							<span *ngIf="element.userListing" class="material-icons text-success">
 								check_circle
 							</span>
-							<span *ngIf="!element.UserListing" class="material-icons text-black-50">
+							<span *ngIf="!element.userListing" class="material-icons text-black-50">
 								check_circle
                             </span>
 
@@ -128,7 +124,7 @@
 						<mat-header-cell *matHeaderCellDef class="justify-content-center">Actions</mat-header-cell>
 						<mat-cell *matCellDef="let element" class="justify-content-center">
 
-							<button mat-icon-button color="primary" matTooltip="Edit customer" (click)="editelement(element)">
+							<button mat-icon-button color="primary" matTooltip="Edit customer" (click)="editProduct(element.id)">
 								<mat-icon>create</mat-icon>
 							</button>&nbsp;
 
