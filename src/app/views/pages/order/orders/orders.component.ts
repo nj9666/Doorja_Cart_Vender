@@ -68,6 +68,7 @@ export class OrdersComponent implements OnInit {
   changeStatus(element,fl:boolean){
     this.send_list.length = 0;
     this.send_list.push(element);
+    debugger;
     if (fl) {
       this.changeCall(this.send_list);
     }else{
@@ -226,7 +227,7 @@ function Comp(element, index, array) {
 
 export class orderTbl {
   id: number;
-  orderIdV: number;
+  orderIdV: string;
   sku: number;
   name: string;
   userName:string;
