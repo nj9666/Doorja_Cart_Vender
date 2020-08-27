@@ -8,7 +8,7 @@ import { ErrorPageComponent } from './views/theme/content/error-page/error-page.
 import { AuthGuard } from './core/auth';
 
 const routes: Routes = [
-	{path: 'auth', loadChildren: () => import('app/views/pages/auth/auth.module').then(m => m.AuthModule)},
+	{ path: 'auth', loadChildren: () => import('app/views/pages/auth/auth.module').then(m => m.AuthModule) },
 
 	{
 		path: '',
@@ -40,6 +40,10 @@ const routes: Routes = [
 				loadChildren: () => import('app/views/pages/growth/growth.module').then(m => m.GrowthModule)
 			},
 			{
+				path: 'profile',
+				loadChildren: () => import('app/views/pages/profile/profile.module').then(m => m.ProfileModule)
+			},
+			{
 				path: 'error/403',
 				component: ErrorPageComponent,
 				data: {
@@ -49,13 +53,13 @@ const routes: Routes = [
 					desc: 'Looks like you don\'t have permission to access for requested page.<br> Please, contact administrator'
 				}
 			},
-			{path: 'error/:type', component: ErrorPageComponent},
-			{path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-			{path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
+			{ path: 'error/:type', component: ErrorPageComponent },
+			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+			{ path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
 		]
 	},
 
-	{path: '**', redirectTo: 'error/403', pathMatch: 'full'},
+	{ path: '**', redirectTo: 'error/403', pathMatch: 'full' },
 ];
 
 @NgModule({

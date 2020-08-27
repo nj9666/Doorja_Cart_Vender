@@ -1,0 +1,212 @@
+<!-- <kt-portlet>
+	<kt-portlet-header [sticky]="true" [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+		<ng-container ktPortletTools>
+			<a (click)="goBackWithoutId()" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Back to the products list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+		</ng-container>
+	</kt-portlet-header>
+	<kt-portlet-body> -->
+<form class="kt-form kt-form--group-seperator-dashed" [formGroup]="ProfileForm" (submit)="ProfileForm.valid && updateProfile()">
+	<div class="kt-form__section kt-form__section--first">
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter business name" formControlName="display_business_name">
+						<mat-error>
+							business name is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>business name</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+
+			</div>
+		</div>
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter vender full name" formControlName="vender_full_name">
+						<mat-error>
+							vender Name is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>vender full name</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter email" formControlName="email">
+						<mat-error>
+							vender email is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>email</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter mobile number" formControlName="mobile_number">
+						<mat-error>
+							vender mobile number is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>mobile number</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+
+			</div>
+		</div>
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-8 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<textarea matInput rows="7" placeholder="Enter business description" formControlName="display_business_description"></textarea>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid kt-margin-bottom-10-mobile">
+						<input matInput placeholder="Enter preferred time slot" formControlName="preferred_time_slot">
+						<mat-error>
+							preferred_time_slot is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>time slot</strong>
+						</mat-hint>
+					</mat-form-field>
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter preferred language" formControlName="preferred_language">
+						<mat-error>
+							preferred_language is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>preferred_language</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+
+			</div>
+		</div>
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-6 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter address line 1" formControlName="add_line_1">
+						<mat-error>
+							address line 1 is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>address line 1</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="address line 2" formControlName="add_line_1">
+						<mat-error>
+							address line 2 is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>address line 2</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+
+						<mat-select formControlName="city_id">
+							<mat-option *ngFor="let City of CityList " [value]="City.id">
+								{{ City.name }}
+							</mat-option>
+						</mat-select>
+						<mat-error>
+							City is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please select
+							<strong>City</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+
+						<mat-select formControlName="state_id">
+							<mat-option *ngFor="let State of StateList " [value]="State.id">
+								{{ State.name }}
+							</mat-option>
+						</mat-select>
+						<mat-error>
+							State is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please select
+							<strong>State</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+
+						<mat-select formControlName="country_id">
+							<mat-option *ngFor="let Country of CountryList " [value]="Country.id">
+								{{ Country.name }}
+							</mat-option>
+						</mat-select>
+						<mat-error>
+							Country is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please select
+							<strong>Country</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="kt-form__group">
+			<div class="row">
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Pin code" formControlName="pin_code">
+						<mat-error>
+							Pin code is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>Pin code</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+				<div class="col-md-4 "></div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile text-right">
+					<button class="btn btn-primary kt-margin-r-10" color="primary" type="submit" mat-raised-button matTooltip="Save & Continue">
+						<span class="kt-hidden-mobile">Update</span>
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</form>
+<!-- </kt-portlet-body>
+</kt-portlet> -->

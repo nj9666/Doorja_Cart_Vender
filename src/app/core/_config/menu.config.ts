@@ -35,7 +35,7 @@ export class MenuConfig {
 					title: 'inventory',
 					root: true,
 					alignment: 'left',
-					icon:'flaticon2-open-box',
+					icon: 'flaticon2-open-box',
 					page: '/inventory',
 				},
 				{
@@ -63,7 +63,7 @@ export class MenuConfig {
 					title: 'paymant',
 					root: true,
 					alignment: 'left',
-					icon:'la la-money',
+					icon: 'la la-money',
 					toggle: 'click',
 					submenu: [
 						{
@@ -86,6 +86,13 @@ export class MenuConfig {
 					alignment: 'left',
 					icon: 'flaticon2-graphic',
 					page: '/growth',
+				},
+				{
+					title: 'Profile',
+					root: true,
+					alignment: 'right',
+					icon: 'flaticon2-user',
+					page: '/profile',
 				},
 			]
 		},
