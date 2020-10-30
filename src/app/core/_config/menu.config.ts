@@ -87,13 +87,13 @@ export class MenuConfig {
 					icon: 'flaticon2-graphic',
 					page: '/growth',
 				},
-				{
-					title: 'Profile',
-					root: true,
-					alignment: 'right',
-					icon: 'flaticon2-user',
-					page: '/profile',
-				},
+				// {
+				// 	title: 'Profile',
+				// 	root: true,
+				// 	alignment: 'right',
+				// 	icon: 'flaticon2-user',
+				// 	page: '/profile',
+				// },
 			]
 		},
 		aside: {
